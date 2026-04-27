@@ -787,6 +787,7 @@ async def hold(
     feel: bool = False,
     source_bucket: str = "",    valence: float = -1,
     arousal: float = -1,
+    name: str = "",
 ) -> str:
     """存储单条记忆,自动打标+合并。tags逗号分隔,importance 1-10。pinned=True创建永久钉选桶。feel=True存储你的第一人称感受(不参与普通浮现)。source_bucket=被消化的记忆桶ID(feel模式下,标记源记忆为已消化)。"""
     await decay_engine.ensure_started()
@@ -863,7 +864,7 @@ async def hold(
             domain=domain,
             valence=final_valence,
             arousal=final_arousal,
-            name=suggested_name or None,
+            name=name or suggested_name or None,
             bucket_type="permanent",
             pinned=True,
         )
@@ -881,7 +882,7 @@ async def hold(
         domain=domain,
         valence=final_valence,
         arousal=final_arousal,
-        name=suggested_name,
+        name=name or suggested_name,
     )
 
     action = "合并→" if is_merged else "新建→"
