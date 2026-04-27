@@ -566,7 +566,9 @@ async def breath(
                 pinned_results.append(f"📌 [核心准则] [bucket_id:{b['id']}] {summary}")
             except Exception as e:
                 logger.warning(f"Failed to dehydrate pinned bucket / 钉选桶脱水失败: {e}")
-                continue
+                fallback = strip_wikilinks(b["content"])[:300]
+                name = b["metadata"].get("name", b["id"])
+                pinned_results.append(f" [核心准则] [bucket_id:{b['id']}] {name}: {fallback}")
 
         # --- Unresolved buckets: surface top N by weight ---
         # --- 未解决桶：按权重浮现前 N 条 ---
